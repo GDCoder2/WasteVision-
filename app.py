@@ -12,10 +12,10 @@ app = Flask(__name__)
 CORS(app)
 
 # -------------------- LOAD MODEL --------------------
-model = AutoModelForImageClassification.from_pretrained("waste_vit_model")
-processor = AutoImageProcessor.from_pretrained("waste_vit_model")
+model = AutoModelForImageClassification.from_pretrained("Waste_ViT_model")
+processor = AutoImageProcessor.from_pretrained("Waste_ViT_model")
 
-with open("waste_vit_model/labels.json") as f:
+with open("Waste_ViT_model/labels.json") as f:
     id2label = json.load(f)
 
 model.eval()
