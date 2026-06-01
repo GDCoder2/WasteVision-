@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from transformers import AutoModelForImageClassification, AutoImageProcessor
 from PIL import Image
@@ -8,7 +8,7 @@ import cv2
 import base64
 import json
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="Frontend", static_url_path="")
 CORS(app)
 
 # -------------------- LOAD MODEL --------------------
@@ -79,7 +79,11 @@ def image_to_base64(img):
 # -------------------- HOME ROUTE --------------------
 @app.route("/")
 def home():
-    return "Waste Classification API with Grad-CAM is running"
+    return send_from_directory(app.static_folder, "index.html")
+
+@app.route("/<path:path>")
+def serve_frontend(path):
+    return send_from_directory(app.static_folder, path)
 
 # -------------------- PREDICT ROUTE --------------------
 @app.route("/predict", methods=["POST"])

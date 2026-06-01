@@ -3,7 +3,7 @@
    Backend API unchanged. All new frontend logic.
    ============================================================ */
 
-const API_URL = "http://localhost:5000/predict";
+const API_URL = "/predict";
 
 // ── WASTE DATA ──────────────────────────────────────────────
 const waste_labels = {
