@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WasteVision AI — Smart Waste Classifier</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <nav class="nav" id="mainNav">
+    <div class="nav-inner">
+      <a href="#" class="nav-brand" data-page="home">
+        <div class="nav-logo">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M7 19H4.5A2.5 2.5 0 0 1 2 16.5V9.5A2.5 2.5 0 0 1 4.5 7H7m0 12V7m0 12h10M7 7h10m0 12h2.5A2.5 2.5 0 0 0 22 16.5V9.5A2.5 2.5 0 0 0 19.5 7H17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M12 7V3m0 0-2 2m2-2 2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        Waste<span>Vision</span>
+      </a>
+      <div class="nav-links">
+        <button class="nav-link active" data-page="home">Home</button>
+        <button class="nav-link" data-page="classify">Classify</button>
+        <button class="nav-link" data-page="waste-guide">Waste Guide</button>
+        <button class="nav-link" data-page="about">About</button>
+      </div>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeToggle">🌙</button>
+        <button class="nav-hamburger" id="navHamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="nav-mobile" id="navMobile">
+      <button class="nav-link" data-page="home">Home</button>
+      <button class="nav-link" data-page="classify">Classify</button>
+      <button class="nav-link" data-page="waste-guide">Waste Guide</button>
+      <button class="nav-link" data-page="about">About</button>
+    </div>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- ===== HOME ===== -->
+  <div class="page active" id="page-home">
+
+    <section class="hero">
+      <div class="hero-bg">
+        <div class="orb orb1"></div>
+        <div class="orb orb2"></div>
+        <div class="orb orb3"></div>
+      </div>
+      <div class="hero-content">
+        <div class="eyebrow"><span class="eyebrow-dot"></span>AI-Powered · 36 Categories · Real-Time</div>
+        <h1>Turn Trash<br>Into <em>Smart Action</em></h1>
+        <p class="hero-sub">Upload any waste image. Our deep learning model identifies the exact waste class, explains the environmental impact, and suggests safe disposal or reuse ideas.</p>
+        <div class="hero-btns">
+          <button class="btn-primary" data-page="classify">
+            <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Classify Now
+          </button>
+          <button class="btn-outline" data-page="waste-guide">Explore Waste Guide</button>
+        </div>
+        <div class="hero-stats">
+          <div class="hs-item"><strong>36</strong><span>Waste Classes</span></div>
+          <div class="hs-div"></div>
+          <div class="hs-item"><strong>94.7%</strong><span>Accuracy</span></div>
+          <div class="hs-div"></div>
+          <div class="hs-item"><strong>Instant</strong><span>Results</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="scanner-card">
+          <div class="sc-header">
+            <div class="sc-dots"><span class="d r"></span><span class="d y"></span><span class="d g"></span></div>
+            <span class="sc-title">WasteVision · Live Scan</span>
+            <span class="sc-status" id="scStatus">● READY</span>
+          </div>
+          <div class="sc-img-area" id="scImgArea">
+            <img id="scImg" src="" alt="" class="sc-img hidden">
+            <div class="sc-placeholder" id="scPlaceholder">
+              <div class="sc-pulse"><div class="scp-ring"></div><div class="scp-ring r2"></div><span class="scp-eye">👁</span></div>
+            </div>
+            <div class="sc-line" id="scLine"></div>
+            <div class="sc-corners"><span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span></div>
+            <div class="sc-live-label" id="scLiveLabel"></div>
+          </div>
+          <div class="sc-output" id="scOutput">
+            <div class="so-line dim">// WasteVision v3.0</div>
+            <div class="so-line dim">// Awaiting input…</div>
+          </div>
+          <div class="sc-result" id="scResult">
+            <span class="sr-icon" id="srIcon">♻️</span>
+            <div class="sr-info"><span class="sr-cat" id="srCat">—</span><span class="sr-sub" id="srSub">—</span></div>
+            <span class="sr-pct" id="srPct">—</span>
+          </div>
+        </div>
+        <div class="float-chip fc1">♻️ Recyclable</div>
+        <div class="float-chip fc2">⚡ AI Instant</div>
+        <div class="float-chip fc3">🌱 Eco-Guide</div>
+        <div class="float-chip fc4">36 Waste Classes</div>
+      </div>
+    </section>
+
+    <!-- THREE CATEGORIES -->
+    <section class="cats-section">
+      <div class="sec-tag">Understanding Waste</div>
+      <h2 class="sec-h">Three Categories. <span class="accent">One Planet.</span></h2>
+      <p class="sec-p">Every waste item belongs to one of three major classes. Knowing which one determines how to handle it responsibly.</p>
+      <div class="cats-grid">
+
+        <div class="cat-card bio">
+          <div class="cat-top">
+            <div class="cat-emoji-wrap bio-wrap"><span>🌿</span></div>
+            <div class="cat-badge bio-badge">Biodegradable</div>
+          </div>
+          <h3>Green Waste</h3>
+          <p>Organic materials that naturally decompose. Still need proper disposal to prevent methane emissions in landfills.</p>
+          <div class="cat-tags"><span>Food scraps</span><span>Paper</span><span>Cardboard</span><span>Plant matter</span></div>
+          <div class="risk-bar">
+            <span class="rb-lbl">Risk Level</span>
+            <div class="rb-track"><div class="rb-fill bio" style="width:25%"></div></div>
+            <span class="rb-val low">Low</span>
+          </div>
+          <div class="cat-actions">
+            <div class="ca">🔄 <strong>Compost</strong> or vermicompost</div>
+            <div class="ca">🗂 <strong>Separate</strong> from non-organic waste</div>
+            <div class="ca">♻️ <strong>Paper</strong> can be re-pulped</div>
+          </div>
+          <div class="cat-harm-strip bio-harm">
+            <span>⚠️</span> In landfills, produces methane — 25x more potent than CO₂
+          </div>
+        </div>
+
+        <div class="cat-card nonbio">
+          <div class="cat-top">
+            <div class="cat-emoji-wrap nonbio-wrap"><span>🔩</span></div>
+            <div class="cat-badge nonbio-badge">Non-Biodegradable</div>
+          </div>
+          <h3>Recyclable Waste</h3>
+          <p>Doesn't decompose naturally but can be endlessly recycled. Requires proper sorting and recycling channel access.</p>
+          <div class="cat-tags"><span>Plastic</span><span>Glass</span><span>Metal</span><span>Textile</span></div>
+          <div class="risk-bar">
+            <span class="rb-lbl">Risk Level</span>
+            <div class="rb-track"><div class="rb-fill nonbio" style="width:65%"></div></div>
+            <span class="rb-val high">High</span>
+          </div>
+          <div class="cat-actions">
+            <div class="ca">♻️ <strong>Sort</strong> by material type</div>
+            <div class="ca">🏭 <strong>Recycling facility</strong> drop-off</div>
+            <div class="ca">🛒 <strong>Prefer</strong> recycled products</div>
+          </div>
+          <div class="cat-harm-strip nonbio-harm">
+            <span>☠️</span> Plastic takes 20–1000+ years to decompose, creates microplastics
+          </div>
+        </div>
+
+        <div class="cat-card hazard">
+          <div class="cat-top">
+            <div class="cat-emoji-wrap hazard-wrap"><span>☣️</span></div>
+            <div class="cat-badge hazard-badge">Hazardous</div>
+          </div>
+          <h3>Dangerous Waste</h3>
+          <p>Toxic, corrosive, or infectious materials. Never mix with household waste. Requires specialized disposal facilities.</p>
+          <div class="cat-tags"><span>E-Waste</span><span>Medical</span><span>Chemicals</span><span>Batteries</span></div>
+          <div class="risk-bar">
+            <span class="rb-lbl">Risk Level</span>
+            <div class="rb-track"><div class="rb-fill hazard" style="width:95%"></div></div>
+            <span class="rb-val critical">Critical</span>
+          </div>
+          <div class="cat-actions">
+            <div class="ca">🏥 <strong>Certified</strong> disposal centers only</div>
+            <div class="ca">🚫 <strong>Never</strong> in regular bins</div>
+            <div class="ca">📞 <strong>Contact</strong> municipal authority</div>
+          </div>
+          <div class="cat-harm-strip hazard-harm">
+            <span>💀</span> Toxic chemicals leach into groundwater, lasting decades
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="hiw-section">
+      <div class="sec-tag">How It Works</div>
+      <h2 class="sec-h">Scan. Learn. <span class="accent">Act.</span></h2>
+      <div class="hiw-row">
+        <div class="hiw-step"><div class="hiw-n">01</div><div class="hiw-ico">📷</div><h4>Upload</h4><p>Drag, drop, or snap a photo</p></div>
+        <div class="hiw-arr">→</div>
+        <div class="hiw-step"><div class="hiw-n">02</div><div class="hiw-ico">🧠</div><h4>AI Classifies</h4><p>36 sub-categories identified</p></div>
+        <div class="hiw-arr">→</div>
+        <div class="hiw-step"><div class="hiw-n">03</div><div class="hiw-ico">🔬</div><h4>Grad-CAM</h4><p>Visual explanation heatmap</p></div>
+        <div class="hiw-arr">→</div>
+        <div class="hiw-step"><div class="hiw-n">04</div><div class="hiw-ico">💡</div><h4>Get Insights</h4><p>Harm, disposal & DIY ideas</p></div>
+        <div class="hiw-arr">→</div>
+        <div class="hiw-step"><div class="hiw-n">05</div><div class="hiw-ico">OK</div><h4>Act Safely</h4><p>Use class-specific disposal guidance</p></div>
+      </div>
+    </section>
+
+    <!-- IMPACT BANNER -->
+    <section class="impact-band">
+      <div class="ib-inner">
+        <div class="ib-stat"><span class="ib-n">2.01B</span><span class="ib-l">Tonnes municipal waste/yr</span></div>
+        <div class="ib-sep"></div>
+        <div class="ib-stat"><span class="ib-n">8M</span><span class="ib-l">Tonnes plastic enter oceans</span></div>
+        <div class="ib-sep"></div>
+        <div class="ib-stat"><span class="ib-n">32%</span><span class="ib-l">Global recycling rate</span></div>
+        <div class="ib-sep"></div>
+        <div class="ib-stat"><span class="ib-n">450yr</span><span class="ib-l">Plastic bottle lifespan</span></div>
+      </div>
+    </section>
+
+    <section class="home-cta">
+      <div class="hcta-inner">
+        <div class="hcta-glow"></div>
+        <h2>Ready to make a difference?</h2>
+        <p>Every scan gives clearer disposal guidance for cleaner sorting.</p>
+        <button class="btn-primary large" data-page="classify">Start Classifying →</button>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ===== CLASSIFY ===== -->
+  <div class="page" id="page-classify">
+    <div class="cl-wrap">
+      <div class="cl-header">
+        <div class="sec-tag">AI Classification</div>
+        <h2>Upload &amp; <span class="accent">Identify</span></h2>
+        <p>Supports JPG, PNG, WEBP — results in under 2 seconds</p>
+      </div>
+
+      <div class="cl-body">
+        <div class="cl-left">
+          <div id="uploadZone" class="upload-zone">
+            <div class="uz-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3>Drop your waste image here</h3>
+            <p>or click to browse files</p>
+            <span class="uz-formats">JPG · PNG · WEBP</span>
+            <input type="file" id="fileInput" accept="image/*">
+          </div>
+
+          <div id="previewContainer" class="preview-box hidden">
+            <img id="previewImage" src="" alt="">
+            <div class="preview-hover">
+              <label class="preview-change-btn">🔄 Change<input type="file" id="changeFileInput" accept="image/*"></label>
+            </div>
+          </div>
+
+          <div class="cl-action-row">
+            <button class="btn-primary hidden" id="classifyBtn">
+              <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/><path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Classify Waste
+            </button>
+            <button class="btn-ghost" id="demoBtn">✨ Try Demo</button>
+          </div>
+        </div>
+
+        <div class="cl-right">
+          <div id="resultPlaceholder" class="result-empty">
+            <div class="re-ico">🔍</div>
+            <h3>Awaiting Image</h3>
+            <p>Upload a waste photo to see classification, harm analysis, recycling tips, and DIY suggestions.</p>
+          </div>
+
+          <div id="resultSection" class="result-panel hidden">
+            <div class="rp-top">
+              <div class="rp-cat-row">
+                <span class="rp-big-icon" id="resultCatIcon">♻️</span>
+                <div class="rp-cat-text">
+                  <div class="rp-cat-lbl">Classified As</div>
+                  <div class="rp-cat-name" id="resultCategory">—</div>
+                </div>
+                <div class="rp-conf-box">
+                  <div class="rp-conf-val" id="resultConfidence">—</div>
+                  <div class="rp-conf-lbl">confidence</div>
+                </div>
+              </div>
+              <div class="rp-bar-wrap">
+                <div class="rp-bar-track"><div class="rp-bar-fill" id="confidenceBar"></div></div>
+              </div>
+              <div id="rpMainCatBadge"></div>
+            </div>
+
+            <div class="rp-imgs">
+              <div class="rp-img-card"><img id="resultOriginal" src="" alt=""><div class="ri-lbl">Original</div></div>
+              <div class="rp-img-card"><img id="gradcamImg" src="" alt=""><div class="ri-lbl">Grad-CAM</div></div>
+            </div>
+
+            <div class="rp-tabs">
+              <button class="rp-tab active" data-tab="impact">☠️ Impact</button>
+              <button class="rp-tab" data-tab="disposal">♻️ Disposal</button>
+              <button class="rp-tab" data-tab="diy">🔧 DIY Ideas</button>
+            </div>
+            <div class="rp-tab-body active" id="tab-impact"><div id="impactContent"></div></div>
+            <div class="rp-tab-body" id="tab-disposal"><div id="disposalContent"></div></div>
+            <div class="rp-tab-body" id="tab-diy"><div id="diyContent"></div></div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== WASTE GUIDE ===== -->
+  <div class="page" id="page-waste-guide">
+    <div class="wg-wrap">
+      <div class="sec-tag">Comprehensive Guide</div>
+      <h2 class="sec-h">Waste <span class="accent">Encyclopedia</span></h2>
+      <p class="sec-p">Understand every waste type — harmful effects, recycling methods, and creative reuse ideas.</p>
+      <div class="wg-filters">
+        <button class="wg-filter active" data-filter="all">All Types</button>
+        <button class="wg-filter" data-filter="bio">🌿 Biodegradable</button>
+        <button class="wg-filter" data-filter="nonbio">🔩 Non-Biodegradable</button>
+        <button class="wg-filter" data-filter="hazard">☣️ Hazardous</button>
+      </div>
+      <div class="wg-grid" id="wgGrid"></div>
+    </div>
+  </div>
+
+  <!-- ===== ABOUT ===== -->
+  <div class="page" id="page-about">
+    <div class="about-wrap">
+      <div class="sec-tag">About the Project</div>
+      <h2 class="sec-h">Meet <span class="accent">WasteVision AI</span></h2>
+      <p class="sec-p">An intelligent waste classification system bridging the gap between intent and action.</p>
+
+      <div class="about-mission">
+        <div class="ab-text">
+          <h3>Our Mission</h3>
+          <p>Most people want to recycle correctly — they just don't know how to classify what's in their hands. By combining computer vision, explainable AI, and environmental education, we make responsible waste disposal as easy as snapping a photo.</p>
+        </div>
+        <div class="ab-ring">
+          <div class="abr-outer"><div class="abr-inner"><span>♻️</span><small>Vision for<br>a cleaner world</small></div></div>
+        </div>
+      </div>
+
+      <div class="tech-grid">
+        <div class="tech-card"><div class="tc-ico">🧠</div><h4>EfficientNet / ResNet</h4><p>Deep learning backbone fine-tuned on 35K+ waste images across 36 sub-categories.</p></div>
+        <div class="tech-card"><div class="tc-ico">🔬</div><h4>Grad-CAM</h4><p>Gradient-weighted Class Activation Maps for transparent, explainable predictions.</p></div>
+        <div class="tech-card"><div class="tc-ico">⚡</div><h4>Flask Backend</h4><p>Lightweight Python REST API serving real-time inference at sub-2s latency.</p></div>
+        <div class="tech-card"><div class="tc-ico">36</div><h4>36-Class Output</h4><p>Frontend displays the exact model label for every waste class without collapsing predictions.</p></div>
+      </div>
+
+      <div class="team-section">
+        <h3 class="sub-heading">The Team</h3>
+        <div class="team-grid">
+          <div class="team-card"><div class="team-av">G</div><strong>Gurdarshan</strong><span>ML Engineer</span></div>
+          <div class="team-card"><div class="team-av">Y</div><strong>Yash Singh</strong><span>Backend Developer</span></div>
+          <div class="team-card"><div class="team-av">S</div><strong>Shivam</strong><span>Frontend Developer</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="nav-logo small"><svg viewBox="0 0 24 24" fill="none"><path d="M7 19H4.5A2.5 2.5 0 0 1 2 16.5V9.5A2.5 2.5 0 0 1 4.5 7H7m0 12V7m0 12h10M7 7h10m0 12h2.5A2.5 2.5 0 0 0 22 16.5V9.5A2.5 2.5 0 0 0 19.5 7H17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        Waste<span>Vision</span>
+      </div>
+      <p>AI-powered waste classification for a cleaner planet.</p>
+      <p>Built by Gurdarshan · Yash Singh · Shivam</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
